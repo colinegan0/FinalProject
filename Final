@@ -1,0 +1,108 @@
+#Colin Egan
+#Final Project
+
+
+
+
+#Question Class
+class Question:
+    def __init__(self, prompt, options, correct_answer):
+        self.prompt = prompt
+        self.options = options
+        self.correct_answer = correct_answer
+
+    def display_question(self):
+        print(self.prompt)
+        for idx, option in enumerate(self.options, start=1):
+            print(f"{idx}. {option}")
+
+    def check_answer(self, user_answer):
+        return user_answer == self.correct_answer
+
+
+
+
+#quizcreator class
+class QuizCreator:
+    def __init__(self):
+        self.questions = []
+
+    def add_question(self, question):
+        self.questions.append(question)
+
+    def create_quiz(self):
+        quiz = Quiz(self.questions)
+        return quiz
+
+
+
+#Quiz Class
+class Quiz:
+    def __init__(self, questions):
+        self.questions = questions
+        self.score = 0
+
+
+#Start the quiz once everything is entered
+    def start_quiz(self):
+        self.score = 0
+        for question in self.questions:
+            question.display_question()
+            user_answer = input("Enter your choice (1, 2, 3, etc.): ")
+            try:
+                user_answer = int(user_answer)
+                if question.check_answer(user_answer):
+                    self.score += 1
+            except ValueError:
+                print("Please enter a valid option!")
+
+        self.display_result()
+
+    def display_result(self):
+        print(f"\nYou scored {self.score}/{len(self.questions)}")
+
+#Creates Main Function and asks for iputs
+def main():
+    quiz_creator = QuizCreator()
+
+    print("Welcome to the Quiz Creator!\n")
+
+    
+
+
+# Input the number of questions for the quiz
+    num_questions = int(input("Enter the number of questions for your quiz: "))
+
+   
+
+    
+# Loop through each question and prompt for inputs
+    for i in range(1, num_questions + 1):
+        prompt = input(f"Enter the prompt for Question {i}: ")
+        options = []
+        for j in range(1, 4):  # Assuming 3 options per question
+            option = input(f"Enter option {j} for Question {i}: ")
+            options.append(option)
+        correct_answer = int(input("Enter the number of the correct answer (1, 2, 3, etc.): "))
+        question = Question(prompt, options, correct_answer)
+        quiz_creator.add_question(question)
+
+  
+
+    quiz = quiz_creator.create_quiz()
+
+    print("\nQuiz created.!\n")
+
+    print("Now let's take the quiz.\n")
+    quiz.start_quiz()
+
+
+if __name__ == "__main__":
+    main()
+
+
+
+
+#SOURCES 
+#https://www.youtube.com/watch?v=rJzjDszODTI
+#https://www.youtube.com/watch?v=JeznW_7DlB0
